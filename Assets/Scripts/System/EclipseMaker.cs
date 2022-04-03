@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EclipseMaker : MonoBehaviour
 {
+	public static System.Action OnCompleteEllipse = null;
+
 	[SerializeField, Min(18)]
 	private int _numberOfSegment = 100;
 	[SerializeField, Range(0f, 360f)]
@@ -86,6 +88,7 @@ public class EclipseMaker : MonoBehaviour
 		if (t > 1f)
 		{
 			t = 0f;
+			OnCompleteEllipse?.Invoke();
 		}
 		_indexWay = Mathf.RoundToInt(t * (_numberOfSegment - 1));
 	}
