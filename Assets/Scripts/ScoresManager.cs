@@ -1,12 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
-public static class ScoresManager
+public class ScoresManager : MonoBehaviour
 {
 	#region Variables
 
-	public static int Score { get; private set; } = 0;
+	public const string HIGH_SCORE_KEY = "HighScore";
+
+	public static ScoresManager Instance { get; private set; } = null;
+
+	public int Score { get; private set; } = 0;
+	public int HighScore { get; private set; } = 0;
+
+	#endregion
+
+	#region Events
+
+	public static event Action<int> ScoreChangedEvent = delegate(int score) { };
+
+	#endregion
+
+	#region Awake
+
+	private void Awake()
+	{
+		Assert.IsNull(Instance, "More than one instance of scores manager exists in the scene.");
+
+		Instance = this;
+
+		LoadHighScore();
+	}
+
+	#endregion
+
+	#region OnDestroy
+
+	private void OnDestroy()
+	{
+		Instance = null;
+
+		SaveHighScore();
+	}
+
+	#endregion
+
+	#region Score
+
+	public void IncreaseScore()
+	{
+		Score++;
+
+		ScoreChangedEvent(Score);
+	}
+
+	#endregion
+
+	#region High Score
+
+	public void LoadHighScore()
+	{
+		HighScore = PlayerPrefs.GetInt(HIGH_SCORE_KEY, 0);
+	}
+
+	public void SaveHighScore()
+	{
+		if (Score > HighScore)
+		{
+			PlayerPrefs.SetInt(HIGH_SCORE_KEY, Score);
+			PlayerPrefs.Save();
+		}
+	}
 
 	#endregion
 }

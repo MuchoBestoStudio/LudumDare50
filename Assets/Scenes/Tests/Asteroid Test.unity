@@ -152,9 +152,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5822e97aed33b349b7521186d221ba5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _secondsToSpawn: 5
+  _spawningCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: Infinity
+      outSlope: -0.00029294932
+      tangentMode: 7
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.13899441
+    - serializedVersion: 3
+      time: 300
+      value: 0.25
+      inSlope: 0.00001853977
+      outSlope: 0.00001853977
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1099115
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _asteroid: {fileID: 6347105431939897864, guid: 54290be647767c543b0e5de76326bdfc, type: 3}
   _earth: {fileID: 912672992}
+  _speed: 0
+  _spawnRadius: 12
 --- !u!4 &538691569
 Transform:
   m_ObjectHideFlags: 0

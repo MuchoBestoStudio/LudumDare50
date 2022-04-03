@@ -6,7 +6,7 @@ public class GameManger : MonoBehaviour
 {
 	#region Variables
 
-	public GameManger Instance { get; private set; } = null;
+	public static GameManger Instance { get; private set; } = null;
 
 	public GameState CurrentState { get; private set; } = GameState.None;
 	public GameState PreviousState { get; private set; } = GameState.None;
@@ -15,7 +15,7 @@ public class GameManger : MonoBehaviour
 
 	#region Events
 
-	public event Action<GameState, GameState> GameStateChangedEvent = delegate(GameState previous, GameState current) { };
+	public static event Action<GameState, GameState> GameStateChangedEvent = delegate(GameState previous, GameState current) { };
 
 	#endregion
 
