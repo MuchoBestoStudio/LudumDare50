@@ -1166,9 +1166,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1744787502}
   - component: {fileID: 1744787503}
-  - component: {fileID: 1744787504}
   - component: {fileID: 1744787506}
   - component: {fileID: 1744787505}
+  - component: {fileID: 1744787504}
   m_Layer: 8
   m_Name: Sun
   m_TagString: Untagged
@@ -1365,12 +1365,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2120951264}
+  - component: {fileID: 2120951265}
+  - component: {fileID: 2120951262}
   - component: {fileID: 2120951266}
   - component: {fileID: 2120951263}
   - component: {fileID: 2120951260}
   - component: {fileID: 2120951261}
-  - component: {fileID: 2120951265}
-  - component: {fileID: 2120951262}
+  - component: {fileID: 2120951267}
   m_Layer: 6
   m_Name: Earth
   m_TagString: Untagged
@@ -1394,7 +1395,7 @@ MonoBehaviour:
   _angle: 10
   _axis: {x: 20, y: 10, z: 0}
   _revolutionBySecond: 0.25
-  sizeRange: {x: 1, y: 1}
+  sizeRange: {x: 3.9, y: 4.1}
   DrawDebug: 1
 --- !u!114 &2120951261
 MonoBehaviour:
@@ -1428,7 +1429,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 1.25
+  m_Radius: 0.3
 --- !u!212 &2120951263
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1469,12 +1470,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2665391b320027f409108f4993e91946, type: 3}
+  m_Sprite: {fileID: 6423806749927177598, guid: 2665391b320027f409108f4993e91946, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1489,7 +1490,7 @@ Transform:
   m_GameObject: {fileID: 2120951259}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 10, z: -0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 21219098}
   m_RootOrder: 1
@@ -1811,6 +1812,25 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 1
+--- !u!95 &2120951267
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2120951259}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 91e88e8bda9167f48825b82e10d021d5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2130544733
 GameObject:
   m_ObjectHideFlags: 0
