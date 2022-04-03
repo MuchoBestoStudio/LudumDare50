@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+// #define HARD_DEBUG
+
 using UnityEngine;
 
 public class EclipseMaker : MonoBehaviour
@@ -42,32 +42,39 @@ public class EclipseMaker : MonoBehaviour
 
 		transform.localScale = Vector3.Lerp(Vector3.one * sizeRange.x, Vector3.one * sizeRange.y, lerpIndex);
 
+		#if HARD_DEBUG
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			Vector3 direction = transform.position.normalized;
-			Quaternion angleRotation = Quaternion.AngleAxis(_angle, Vector3.forward);
-			Vector3 angleEllipse = angleRotation * Vector3.right;
-
-			float angle = Vector3.Angle(direction, angleEllipse);
-			float dot = Mathf.Cos(angle * Mathf.Deg2Rad) * transform.position.magnitude;
-			dot = Mathf.Abs(dot / _axis.x);
-
-			if (dot > .5f)
-			{
-				_axis.x += .5f;
-				_axis.y -= .5f;
-			}
-			else
-			{
-				_axis.x -= .5f;
-				_axis.y += .5f;
-			}
-
-			angle = Mathf.LerpAngle(_angle, Vector3.Angle(direction, Vector3.right), .1f);
-
-			_angle = angle;
-			CreateEllipse();
+			ModifyEllipse();
 		}
+		#endif
+	}
+
+	public void ModifyEllipse()
+	{
+		Vector3 direction = transform.position.normalized;
+		Quaternion angleRotation = Quaternion.AngleAxis(_angle, Vector3.forward);
+		Vector3 angleEllipse = angleRotation * Vector3.right;
+
+		float angle = Vector3.Angle(direction, angleEllipse);
+		float dot = Mathf.Cos(angle * Mathf.Deg2Rad) * transform.position.magnitude;
+		dot = Mathf.Abs(dot / _axis.x);
+
+		if (dot > .5f)
+		{
+			_axis.x += .5f;
+			_axis.y -= .5f;
+		}
+		else
+		{
+			_axis.x -= .5f;
+			_axis.y += .5f;
+		}
+
+		angle = Mathf.LerpAngle(_angle, Vector3.Angle(direction, Vector3.right), .1f);
+
+		_angle = angle;
+		CreateEllipse();
 	}
 
 	private void Move()
