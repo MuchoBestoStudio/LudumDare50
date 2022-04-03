@@ -31,6 +31,14 @@ public class Asteroid : MonoBehaviour
         _workspace.Set(x, y);
         _rb.velocity = _workspace;
     }
-    #endregion
+	#endregion
 
+	#region Collision
+
+	private void OnCollisionEnter2D(Collision2D collision)
+	{
+		gameObject.SetActive(false);
+	}
+
+	#endregion
 }

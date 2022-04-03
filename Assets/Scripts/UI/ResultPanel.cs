@@ -22,21 +22,21 @@ public class ResultPanel : MonoBehaviour
 
 	private void OnEnable()
 	{
-		GameManger.GameStateChangedEvent += OnGameStateChanged;
+		GameplayManger.GameStateChangedEvent += OnGameStateChanged;
 	}
 
 	private void OnDisable()
 	{
-		GameManger.GameStateChangedEvent -= OnGameStateChanged;
+		GameplayManger.GameStateChangedEvent -= OnGameStateChanged;
 	}
 
 	#endregion
 
 	#region Game Manager Events
 
-	private void OnGameStateChanged(GameState _, GameState cur)
+	private void OnGameStateChanged(GameplayState _, GameplayState cur)
 	{
-		if (cur == GameState.Ending)
+		if (cur == GameplayState.Ending)
 		{
 			_canvas.enabled = true;
 		}

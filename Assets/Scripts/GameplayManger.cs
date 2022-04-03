@@ -2,20 +2,20 @@ using System;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class GameManger : MonoBehaviour
+public class GameplayManger : MonoBehaviour
 {
 	#region Variables
 
-	public static GameManger Instance { get; private set; } = null;
+	public static GameplayManger Instance { get; private set; } = null;
 
-	public GameState CurrentState { get; private set; } = GameState.None;
-	public GameState PreviousState { get; private set; } = GameState.None;
+	public GameplayState CurrentState { get; private set; } = GameplayState.None;
+	public GameplayState PreviousState { get; private set; } = GameplayState.None;
 
 	#endregion
 
 	#region Events
 
-	public static event Action<GameState, GameState> GameStateChangedEvent = delegate(GameState previous, GameState current) { };
+	public static event Action<GameplayState, GameplayState> GameStateChangedEvent = delegate(GameplayState previous, GameplayState current) { };
 
 	#endregion
 
@@ -41,7 +41,7 @@ public class GameManger : MonoBehaviour
 
 	#region States
 
-	public void ChangeState(GameState state)
+	public void ChangeState(GameplayState state)
 	{
 		if (CurrentState == state)
 		{
