@@ -11,12 +11,13 @@ public class EclipseMaker : MonoBehaviour
 	[SerializeField]
 	private Vector3 _axis = Vector2.one;
 	private Vector3[] _points = null;
+	private int _indexWay = 0;
 
 	private LineRenderer _lineRenderer = null;
 
-	[SerializeField, Min(1f)]
-	private float _speed = 1f;
-	private int _indexWay = 0;
+	[SerializeField, Min(.000001f)]
+	private float _revolutionBySecond = 1f;
+	private float t = 0f;
 
 	private void Awake()
 	{
@@ -28,20 +29,30 @@ public class EclipseMaker : MonoBehaviour
 		transform.position = _points[_indexWay];
 	}
 
+	public Vector2 sizeRange = Vector2.one;
+
 	private void Update()
 	{
 		CreateEllipse();
 		Move();
 		CheckCondition();
 
+		float maxDistance = Mathf.Max(_axis.x, _axis.y);
+		float lerpIndex = Mathf.InverseLerp(-maxDistance, maxDistance, transform.position.y);
+
+		transform.localScale = Vector3.Lerp(Vector3.one * sizeRange.x, Vector3.one * sizeRange.y, lerpIndex);
+
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
 			Vector3 direction = transform.position.normalized;
 			Quaternion angleRotation = Quaternion.AngleAxis(_angle, Vector3.forward);
-			Vector3 angleDirection = angleRotation * Vector3.right;
-			float dotPoint = Vector3.Dot(angleDirection, direction);
+			Vector3 angleEllipse = angleRotation * Vector3.right;
 
-			if (Mathf.Abs(dotPoint) > .5f)
+			float angle = Vector3.Angle(direction, angleEllipse);
+			float dot = Mathf.Cos(angle * Mathf.Deg2Rad) * transform.position.magnitude;
+			dot = Mathf.Abs(dot / _axis.x);
+
+			if (dot > .5f)
 			{
 				_axis.x += .5f;
 				_axis.y -= .5f;
@@ -52,7 +63,7 @@ public class EclipseMaker : MonoBehaviour
 				_axis.y += .5f;
 			}
 
-			float angle = Mathf.LerpAngle(_angle, Vector3.Angle(direction, Vector3.right), .1f);
+			angle = Mathf.LerpAngle(_angle, Vector3.Angle(direction, Vector3.right), .1f);
 
 			_angle = angle;
 			CreateEllipse();
@@ -61,12 +72,15 @@ public class EclipseMaker : MonoBehaviour
 
 	private void Move()
 	{
-		transform.position = Vector3.MoveTowards(transform.position, _points[_indexWay], _speed * Time.deltaTime);
+		transform.position = _points[_indexWay];
+		float duration = 1f / _revolutionBySecond;
 
-		if (Vector3.Distance(transform.position, _points[_indexWay]) < .001f)
+		t += Time.deltaTime / duration;
+		if (t > 1f)
 		{
-			_indexWay = (_indexWay + 1) % _numberOfSegment;
+			t = 0f;
 		}
+		_indexWay = Mathf.RoundToInt(t * (_numberOfSegment - 1));
 	}
 
 	public void CreateEllipse()
@@ -115,28 +129,25 @@ public class EclipseMaker : MonoBehaviour
 		CreateEllipse();
 	}
 
+
+	public bool DrawDebug = false;
 	private void OnDrawGizmos()
 	{
-		// to do :  fixed the dot product
+		if (DrawDebug == false)
+		{
+			return;
+		}
 
 		Vector3 direction = transform.position.normalized;
 		Quaternion angleRotation = Quaternion.AngleAxis(_angle, Vector3.forward);
 		Vector3 angleEllipse = angleRotation * Vector3.right;
-		//angleEllipse *= _axis.x * .5f;
 
-		float dotPoint = Vector3.Dot(Vector3.forward, transform.position);
-		//float dotPoint = Vector3.Dot(angleEllipse, direction);
-		//float dotPoint = Vector3.Dot(direction, angleEllipse);
-		Debug.Log($"{dotPoint}");
-
-
+		float angle = Vector3.Angle(direction, angleEllipse);
+		float dot = Mathf.Cos(angle * Mathf.Deg2Rad) * transform.position.magnitude;
 
 		Debug.DrawLine(Vector3.zero, direction * transform.position.magnitude, Color.black);
-		Debug.DrawLine(Vector3.zero, direction * transform.position.magnitude * dotPoint, Color.cyan);
-
 		Debug.DrawLine(Vector3.zero, angleEllipse * _axis.x, Color.red);
-		Debug.DrawLine(Vector3.zero, angleEllipse * _axis.x * dotPoint, Color.cyan);
-
-
+		Debug.DrawLine(Vector3.zero, angleEllipse * dot, Color.cyan);
+		Debug.DrawLine(transform.position, angleEllipse * dot, Color.green);
 	}
 }
