@@ -98,7 +98,7 @@ public class EllipseMaker : MonoBehaviour
 			_axis.y += .5f;
 		}
 
-		angle = Mathf.LerpAngle(_angle, Vector3.Angle(direction, Vector3.right), .1f);
+		angle = Mathf.LerpAngle(_angle, Vector3.Angle(direction, Vector3.right), .05f);
 
 		_angle = angle;
 		CreateEllipse();
