@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Asteroid : MonoBehaviour
+public class Asteroid : MonoBehaviour, IHitableByAsteroid
 {
     #region Components Variables
     private Rigidbody2D _rb;
@@ -11,6 +11,7 @@ public class Asteroid : MonoBehaviour
     #region General Variables
     private Vector2 _workspace;
     [SerializeField] private float _rotationSpeed;
+    private float _speed = 1f;
     #endregion
 
     #region Unity Callbacks
@@ -29,15 +30,33 @@ public class Asteroid : MonoBehaviour
     public void ChangeDirection(float x, float y)
     {
         _workspace.Set(x, y);
-        _rb.velocity = _workspace;
     }
-	#endregion
 
-	#region Collision
-
-	private void OnCollisionEnter2D(Collision2D collision)
+    public void SetSpeed(float speed)
 	{
-		gameObject.SetActive(false);
+        _speed = speed;
+	}
+
+    public void ApplyVelocity()
+	{
+        _rb.velocity = _workspace * _speed;
+    }
+    #endregion
+
+    #region Collision
+
+    private void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.gameObject.TryGetComponent(out IHitableByAsteroid hitableByAsteroid) == true)
+		{
+            hitableByAsteroid.HitByAsteroid();
+            gameObject.SetActive(false);
+        }
+    }
+
+	public void HitByAsteroid()
+	{
+        gameObject.SetActive(false);
 	}
 
 	#endregion

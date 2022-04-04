@@ -11,6 +11,8 @@ public class GameplayManger : MonoBehaviour
 	public GameplayState CurrentState { get; private set; } = GameplayState.None;
 	public GameplayState PreviousState { get; private set; } = GameplayState.None;
 
+	private Earth m_earth = null;
+
 	#endregion
 
 	#region Events
@@ -26,6 +28,13 @@ public class GameplayManger : MonoBehaviour
 		Assert.IsNull(Instance, "More than one instance of game manager exists in the scene.");
 
 		Instance = this;
+
+		m_earth = FindObjectOfType<Earth>();
+	}
+
+	private void Start()
+	{
+		m_earth.OnEarthDestroyed += () => ChangeState(GameplayState.Ending);
 	}
 
 	#endregion

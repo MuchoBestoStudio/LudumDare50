@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
 
-public class Earth : MonoBehaviour, IHitableBySunWave
+public class Earth : MonoBehaviour, IHitableBySunWave, IHitableByAsteroid
 {
 	#region Variables
 
 	public float Temperature { get; private set; } = 0f;
 
 	[SerializeField]
-	private EclipseMaker _eclispseMaker = null;
+	private EllipseMaker _eclispseMaker = null;
 	[SerializeField]
 	private float _startTemperature = 20f;
 	[SerializeField]
@@ -23,7 +23,8 @@ public class Earth : MonoBehaviour, IHitableBySunWave
 
 	#region Events
 
-	public event Action<float> TemperatureChangedEvent = delegate(float temperature) { };
+	public event Action<float> TemperatureChangedEvent = delegate (float temperature) { };
+	public event Action OnEarthDestroyed = delegate () { };
 
 	#endregion
 
@@ -32,6 +33,11 @@ public class Earth : MonoBehaviour, IHitableBySunWave
 	private void Start()
 	{
 		ChangeTemperature(_startTemperature);
+	}
+
+	private void OnDestroy()
+	{
+		OnEarthDestroyed = null;
 	}
 
 	#endregion
@@ -53,7 +59,18 @@ public class Earth : MonoBehaviour, IHitableBySunWave
 	{
 		ChangeTemperature(Temperature + amountOfTemperature);
 
+		if (Temperature > _maxTemperature)
+		{
+			OnEarthDestroyed.Invoke();
+			return;
+		}
+
 		_eclispseMaker.ModifyEllipse();
+	}
+
+	public void HitByAsteroid()
+	{
+		OnEarthDestroyed.Invoke();
 	}
 
 	#endregion

@@ -31,7 +31,7 @@ public class ScoresManager : MonoBehaviour
 
 		LoadHighScore();
 
-		EclipseMaker.OnCompleteEllipse += IncreaseScore;
+		EllipseMaker.OnCompleteEllipse += IncreaseScore;
 	}
 
 	#endregion
@@ -43,7 +43,7 @@ public class ScoresManager : MonoBehaviour
 		Instance = null;
 
 		SaveHighScore();
-		EclipseMaker.OnCompleteEllipse -= IncreaseScore;
+		EllipseMaker.OnCompleteEllipse -= IncreaseScore;
 	}
 
 	#endregion

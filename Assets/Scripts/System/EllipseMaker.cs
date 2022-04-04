@@ -2,7 +2,7 @@
 
 using UnityEngine;
 
-public class EclipseMaker : MonoBehaviour
+public class EllipseMaker : MonoBehaviour
 {
 	public static System.Action OnCompleteEllipse = null;
 
@@ -17,6 +17,8 @@ public class EclipseMaker : MonoBehaviour
 
 	private LineRenderer _lineRenderer = null;
 
+	public Vector2 sizeRange = Vector2.one;
+
 	[SerializeField, Min(.000001f)]
 	private float _revolutionBySecond = 1f;
 	private float t = 0f;
@@ -29,20 +31,35 @@ public class EclipseMaker : MonoBehaviour
 		_lineRenderer.positionCount = _numberOfSegment;
 		CreateEllipse();
 		transform.position = _points[_indexWay];
+
+		GameplayManger.GameStateChangedEvent += OnGameStateChanged;
 	}
 
-	public Vector2 sizeRange = Vector2.one;
+	private void OnDestroy()
+	{
+		GameplayManger.GameStateChangedEvent -= OnGameStateChanged;
+	}
+
+	private void OnGameStateChanged(GameplayState previousState, GameplayState newState)
+	{
+		switch (newState)
+		{
+			case GameplayState.None:
+			case GameplayState.Ending:
+				enabled = false;
+				break;
+			case GameplayState.Playing:
+				enabled = true;
+				break;
+		}
+	}
 
 	private void Update()
 	{
 		CreateEllipse();
 		Move();
+		ChangeScale();
 		CheckCondition();
-
-		float maxDistance = Mathf.Max(_axis.x, _axis.y);
-		float lerpIndex = Mathf.InverseLerp(-maxDistance, maxDistance, transform.position.y);
-
-		transform.localScale = Vector3.Lerp(Vector3.one * sizeRange.x, Vector3.one * sizeRange.y, lerpIndex);
 
 		#if HARD_DEBUG
 		if (Input.GetKeyDown(KeyCode.Space))
@@ -50,6 +67,14 @@ public class EclipseMaker : MonoBehaviour
 			ModifyEllipse();
 		}
 		#endif
+	}
+
+	private void ChangeScale()
+	{
+		float maxDistance = Mathf.Max(_axis.x, _axis.y);
+		float lerpIndex = Mathf.InverseLerp(-maxDistance, maxDistance, transform.position.y);
+
+		transform.localScale = Vector3.Lerp(Vector3.one * sizeRange.x, Vector3.one * sizeRange.y, lerpIndex);
 	}
 
 	public void ModifyEllipse()

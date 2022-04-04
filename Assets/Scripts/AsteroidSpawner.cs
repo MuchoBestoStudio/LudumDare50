@@ -8,9 +8,10 @@ public class AsteroidSpawner : MonoBehaviour
 	[SerializeField] private AnimationCurve _spawningCurve;
 	[SerializeField] private GameObject _asteroid;
 	[SerializeField] private Transform _earth;
-	[SerializeField] private float _speed;
 	[SerializeField] private float _spawnRadius;
 	private Asteroid _activeAsteroid;
+	[SerializeField]
+	private Vector2 _speedRange = Vector2.one;
 
 	private float _time;
 
@@ -34,7 +35,9 @@ public class AsteroidSpawner : MonoBehaviour
 			_activeAsteroid = _pool.Rescue().GetComponent<Asteroid>();
 			_activeAsteroid.gameObject.SetActive(true);
 			_activeAsteroid.transform.position = position;
-			_activeAsteroid.ChangeDirection(direction.x,direction.y);
+			_activeAsteroid.ChangeDirection(direction.x, direction.y);
+			_activeAsteroid.SetSpeed(Random.Range(_speedRange.x, _speedRange.y));
+			_activeAsteroid.ApplyVelocity();
 
 
 			_time += _spawningCurve.Evaluate(Time.timeSinceLevelLoad);
