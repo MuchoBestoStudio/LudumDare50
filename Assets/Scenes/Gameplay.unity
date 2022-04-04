@@ -433,8 +433,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   _asteroid: {fileID: 6347105431939897864, guid: 54290be647767c543b0e5de76326bdfc, type: 3}
   _earth: {fileID: 2120951264}
-  _speed: 0
-  _spawnRadius: 60
+  _spawnRadius: 30
+  _speedRange: {x: 1, y: 1.5}
 --- !u!1 &849625205
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,8 +878,8 @@ MonoBehaviour:
   _numberOfSegment: 200
   _angle: 10
   _axis: {x: 20, y: 10, z: 0}
-  _revolutionBySecond: 0.25
   sizeRange: {x: 3.9, y: 4.1}
+  _revolutionBySecond: 0.25
   DrawDebug: 1
 --- !u!114 &2120951261
 MonoBehaviour:
