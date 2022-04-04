@@ -78,7 +78,7 @@ public class GameOverPanel : MonoBehaviour
 
 	private void OnGameStateChanged(GameplayState _, GameplayState cur)
 	{
-		if (cur == GameplayState.Ending)
+		if (cur == GameplayState.GameOver)
 		{
 			_canvas.enabled = true;
 

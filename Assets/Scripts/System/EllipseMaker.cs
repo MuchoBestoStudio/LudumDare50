@@ -45,7 +45,7 @@ public class EllipseMaker : MonoBehaviour
 		switch (newState)
 		{
 			case GameplayState.None:
-			case GameplayState.Ending:
+			case GameplayState.GameOver:
 				enabled = false;
 				break;
 			case GameplayState.Playing:

@@ -34,7 +34,7 @@ public class GameplayManger : MonoBehaviour
 
 	private void Start()
 	{
-		m_earth.OnEarthDestroyed += () => ChangeState(GameplayState.Ending);
+		m_earth.OnEarthDestroyed += () => ChangeState(GameplayState.GameOver);
 	}
 
 	#endregion

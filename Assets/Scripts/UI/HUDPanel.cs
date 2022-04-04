@@ -17,14 +17,35 @@ public class HUDPanel : MonoBehaviour
 
 	private void OnEnable()
 	{
+		GameplayManger.GameStateChangedEvent += OnGameplayStateChanged;
 		ScoresManager.ScoreChangedEvent += OnScoreChanged;
-
-		OnScoreChanged(ScoresManager.Instance.Score);
 	}
 
 	private void OnDisable()
 	{
+		GameplayManger.GameStateChangedEvent -= OnGameplayStateChanged;
 		ScoresManager.ScoreChangedEvent -= OnScoreChanged;
+	}
+
+	#endregion
+
+	#region Start
+
+	private void Start()
+	{
+		OnScoreChanged(ScoresManager.Instance.Score);
+	}
+
+	#endregion
+
+	#region Gameplay Manager
+
+	private void OnGameplayStateChanged(GameplayState _, GameplayState current)
+	{
+		if (current == GameplayState.GameOver)
+		{
+			_scoreTextMesh.gameObject.SetActive(false);
+		}
 	}
 
 	#endregion
