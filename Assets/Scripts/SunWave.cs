@@ -16,6 +16,15 @@ public class SunWave : MonoBehaviour
 
 	#endregion
 
+	#region OnEnable
+
+	private void OnEnable()
+	{
+		_collisionOccured.Clear();
+	}
+
+	#endregion
+
 	#region Update
 
 	private void Update()
