@@ -17,7 +17,7 @@ public class ScoresManager : MonoBehaviour
 
 	#region Events
 
-	public static event Action<int> ScoreChangedEvent = delegate(int score) { };
+	public static event Action<int> ScoreChangedEvent = delegate (int score) { };
 
 	#endregion
 
@@ -73,6 +73,15 @@ public class ScoresManager : MonoBehaviour
 			PlayerPrefs.SetInt(HIGH_SCORE_KEY, Score);
 			PlayerPrefs.Save();
 		}
+	}
+
+	#endregion
+
+	#region Helpers
+
+	public bool IsHighScoreBeaten()
+	{
+		return Score > HighScore;
 	}
 
 	#endregion
