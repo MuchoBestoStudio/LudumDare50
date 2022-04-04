@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Sun : MonoBehaviour
@@ -17,6 +15,8 @@ public class Sun : MonoBehaviour
 	private GameObject _projectilePrefab = null;
 	[SerializeField]
 	private Transform _aimExit = null;
+	[SerializeField]
+	private AudioSource _sunWaveAudio = null;
 
 	private GameObjectPool _projectilePool = null;
 
@@ -73,6 +73,8 @@ public class Sun : MonoBehaviour
 		projectile.transform.position = _aimExit.position;
 		projectile.transform.rotation = _aimExit.rotation;
 		projectile.gameObject.SetActive(true);
+
+		_sunWaveAudio.Play();
 	}
 
 	#endregion
