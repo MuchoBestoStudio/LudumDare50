@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class SunWave : MonoBehaviour
@@ -8,6 +9,10 @@ public class SunWave : MonoBehaviour
 	private float _translationSpeed = 1f;
 	[SerializeField]
 	private float _temperatureModifier = 1f;
+	[SerializeField]
+	private float _maxDistanceToTravel = 10f;
+
+	private List<IHitableBySunWave> _collisionOccured = new List<IHitableBySunWave>();
 
 	#endregion
 
@@ -16,6 +21,11 @@ public class SunWave : MonoBehaviour
 	private void Update()
 	{
 		transform.position += transform.up * _translationSpeed * Time.deltaTime;
+
+		if (transform.position.magnitude > _maxDistanceToTravel)
+		{
+			gameObject.SetActive(false);
+		}
 	}
 
 	#endregion
@@ -25,8 +35,10 @@ public class SunWave : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		IHitableBySunWave hitable = collision.GetComponent<IHitableBySunWave>();
-		if (hitable != null)
+		if (hitable != null && _collisionOccured.Contains(hitable) == false)
 		{ 
+			_collisionOccured.Add(hitable);
+
 			hitable.HitBySunWave(_temperatureModifier);
 		}
 	}

@@ -18,6 +18,17 @@ public class Sun : MonoBehaviour
 	[SerializeField]
 	private Transform _aimExit = null;
 
+	private GameObjectPool _projectilePool = null;
+
+	#endregion
+
+	#region Awake
+
+	private void Awake()
+	{
+		_projectilePool = new GameObjectPool(_projectilePrefab, 4);
+	}
+
 	#endregion
 
 	#region Update
@@ -58,7 +69,10 @@ public class Sun : MonoBehaviour
 
 	private void ShootSunWave()
 	{
-		GameObject projectile = GameObject.Instantiate(_projectilePrefab, _aimExit.position, _aimExit.rotation);
+		GameObject projectile = _projectilePool.Rescue();
+		projectile.transform.position = _aimExit.position;
+		projectile.transform.rotation = _aimExit.rotation;
+		projectile.gameObject.SetActive(true);
 	}
 
 	#endregion
